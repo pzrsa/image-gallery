@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js'
-import NextImage from 'next/image'
+import Image from 'next/image'
 import { useState } from 'react'
 
 const supabaseAdmin = createClient(
@@ -24,18 +24,7 @@ type Image = {
   username: string
 }
 
-export default async function Gallery({ images }: { images: Image[] }) {
-  await supabaseAdmin.from('images').insert([
-    {
-      name: 'Pedro Duarte',
-      href: 'https://twitter.com/peduarte/status/1463897468383412231',
-      username: '@peduarte',
-      imageSrc: 'https://pbs.twimg.com/media/FFDOtLkWYAsWjTM?format=jpg',
-    },
-  ])
-
-  const { data } = await supabaseAdmin.from('images').select('*')
-
+export default function Gallery({ images }: { images: Image[] }) {
   function cn(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
   }
@@ -46,7 +35,7 @@ export default async function Gallery({ images }: { images: Image[] }) {
     return (
       <a href={image.href} className="group">
         <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-w-7 xl:aspect-h-8">
-          <NextImage
+          <Image
             alt=""
             src={image.imageSrc}
             layout="fill"
@@ -64,22 +53,6 @@ export default async function Gallery({ images }: { images: Image[] }) {
         <p className="mt-1 text-lg font-medium text-gray-900">
           {image.username}
         </p>
-      </a>
-    )
-  }
-
-  function Image() {
-    return (
-      <a href="#" className="group">
-        <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-w-7 xl:aspect-h-8">
-          <img
-            alt=""
-            src="https://bit.ly/placeholder-img"
-            className="group-hover:opacity-75"
-          />
-        </div>
-        <h3 className="mt-4 text-sm text-gray-700">Lee Robinson</h3>
-        <p className="mt-1 text-lg font-medium text-gray-900">@leeerob</p>
       </a>
     )
   }
